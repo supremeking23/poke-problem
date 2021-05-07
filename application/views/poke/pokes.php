@@ -34,7 +34,7 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-12">
-               <h4> <?= $number_of_people_who_poke_you['number_of_people_who_poke_you']; ?> people poke you</h4>
+               <h4> <?= $number_of_people_who_poke_you['poke_count']; ?> people poke you</h4>
             </div>
         </div>
 
@@ -42,7 +42,7 @@
             <div class="col-md-4 people-poke-you">
                 <ul>
 <?php foreach($get_all_user_who_poke_you as $users):?>
-                    <li><?= $users["name"]?> poked you <?= $users["poke_count"]?>  times</li>
+                    <li><?= $users["name"]?> poked you <?= $users["n_poke"]?>  times</li>
 <?php endforeach;?>
                 </ul>
 

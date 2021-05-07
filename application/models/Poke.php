@@ -23,12 +23,14 @@ class Poke extends CI_Model {
     }
 
     function number_of_people_who_poke_you($user_id){
-        return $this->db->query("SELECT count(*) as number_of_people_who_poke_you FROM pokes where poke_to = ?", array($user_id))->row_array();
+        $query = "SELECT count(DISTINCT(poke_from)) as poke_count FROM pokes WHERE poke_to = ?";
+        $values = array($user_id);
+        return $this->db->query($query, $values)->row_array();
     }
 
     function get_all_user_who_poke_you($user_id){
-        $query = "SELECT count(pokes.poke_from) as poke_count,users.id,users.name FROM users LEFT JOIN pokes ON users.id = pokes.poke_from GROUP BY pokes.poke_to,users.id,users.name HAVING users.id != ? ORDER BY users.id";
-        $values = array($user_id);
+        $query = "SELECT name,count(pokes.poke_from) as n_poke FROM users INNER JOIN pokes ON users.id = pokes.poke_from WHERE users.id != ? AND pokes.poke_to = ? GROUP BY name";
+        $values = array($user_id,$user_id);
         return $this->db->query($query, $values)->result_array();
     }
 
