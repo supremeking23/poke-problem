@@ -30,6 +30,23 @@ class Pokes extends CI_Controller {
 		$this->load->view('poke/login');
 	}
 
+	public function poke_ajax(){
+		$data['users_to_poke'] = $this->user->get_all_other_users($this->session->userdata("user_id")); 
+		$this->load->view("poke/partial/user_to_pokes",$data);
+
+	}
+
+	public function poke_process_ajax(){
+		$poke_detail = array(
+            "poke_from" => $this->input->post("poke_from",TRUE),
+            "poke_to" => $this->input->post("poke_to",TRUE),
+        );
+
+        $this->poke->add_poke($poke_detail);
+
+		$this->poke_ajax();
+	}
+
     public function login_process(){
         $config = array(
 			array(

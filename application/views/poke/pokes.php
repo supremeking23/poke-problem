@@ -23,6 +23,27 @@
             list-style-type:none;
         }
     </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function(){
+            $.get(`pokes/poke_ajax`,function(res){
+                $(".user-list").html(res);
+            });
+
+            $(document).on('submit','form',function(){
+                // alert("submit");
+                $.post($(this).attr("action"),$(this).serialize(),function(res){
+                    $(".user-list").html(res);
+                });
+                return false;
+            });
+        });
+    </script>
+
+
   </head>
   <body>
     <!-- As a heading -->
@@ -67,23 +88,8 @@
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-<?php foreach($users_to_poke as $users):?>
-                        <tr>
-                            <th scope="row"><?= $users["name"]?></th>
-                            <td><?= $users["alias"]?></td>
-                            <td><?= $users["email"]?></td>
-                            <td><?= $users["poke_history"]?></td>
-                            <td>
-<?= form_open("pokes/poke_process");?>
-                                    <input type="hidden" name="poke_from" value="<?= $this->session->userdata("user_id");?>">
-                                    <input type="hidden" name="poke_to" value="<?= $users["id"];?>">
-                                    
-                                    <button type="submit">Poke</button>
-                                </form>
-                            </td>
-                        </tr>
-<?php endforeach; ?> 
+                    <tbody class="user-list">
+
                     </tbody>
                 </table>
             </div>
@@ -91,17 +97,6 @@
 
     </div>
 
-    <!-- Optional JavaScript; choose one of the two! -->
 
-    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
-    -->
   </body>
 </html>
